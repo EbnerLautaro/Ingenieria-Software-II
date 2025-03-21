@@ -1,0 +1,21 @@
+// Una maquina expendedora de bebidas cobra 15c por una lata de gaseosas. La maquina
+// acepta monedas de 5c, 10c, y 20c, y da vuelto. Modele la maquina como un proceso FSP.
+
+READY = (
+    take5  -> C5
+    | take10 -> C10
+    | take20 -> DEVOLVER5 
+),
+C5 = (
+    take5  -> C10
+    | take10 -> DEVOLVER0
+    | take20 -> DEVOLVER10
+),
+C10 = (
+    take5  -> DEVOLVER0
+    | take10 -> DEVOLVER5
+    | take20 -> DEVOLVER10
+),
+DEVOLVER0 = (dar_bebida -> READY),
+DEVOLVER5 = (give5 -> DEVOLVER0),
+DEVOLVER10 = (give10 -> DEVOLVER0).

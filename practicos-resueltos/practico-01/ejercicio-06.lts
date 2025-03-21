@@ -1,0 +1,14 @@
+// Considere un sensor que mide el nivel de agua de un tanque. El nivel, que inicialmente
+// es 5, se mide en unidades de 0 a 9. El sensor emite una señal de bajo si el nivel es menor que 2 y una
+// señal de alto si el nivel es mayor a 8. En cualquier otro caso, el sensor emite la señal normal. Modele
+// el sensor como un proceso FSP.
+
+
+SENSOR = SENSOR[5],
+SENSOR[i:0..9] = (
+    when (i>0) bajar -> SENSOR[i-1]
+    | when (i<9) subir -> SENSOR[i+1]
+    | when (0<=i && i<2) bajo -> SENSOR[i] 
+    | when (2<=i && i<8) normal -> SENSOR[i] 
+    | when (8<=i && i<=9) alto -> SENSOR[i] 
+). 

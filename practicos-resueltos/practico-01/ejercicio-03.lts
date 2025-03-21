@@ -1,0 +1,15 @@
+// EJERCICIO 3 ----------------------------------------------------------------
+MEETING = (hello -> converse -> goodbye -> STOP).
+
+PERSON = (weekend -> sleep -> work -> PERSON | weekend -> sleep -> {play, shop} -> PERSON).
+
+MOVIE = (ahead -> (left -> STOP | rigth -> MOVIE)). 
+
+JOB = (arrive -> work -> leave -> JOB).
+
+GAME = (tree -> loose -> GAME | {one, two} -> WIN),
+WIN = (win -> GAME).
+
+DOUBLE = (in[i:1..3] -> out[i] -> DOUBLE).
+
+FOURTICK = (tick -> tick -> tick -> tick -> STOP).
