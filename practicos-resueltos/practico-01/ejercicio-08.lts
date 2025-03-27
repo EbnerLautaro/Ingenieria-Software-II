@@ -1,0 +1,14 @@
+// Considere una radio FM con tres controles. Uno es un interruptor on/off, que enciende
+// el aparato o lo apaga. Los otros controles controlan la sintonizacion; estos son dos botones scan y
+// reset. Cuando la radio se enciende o el boton reset se apreta, la radio se sintoniza en la frecuencia
+// mas alta de la banda (es decir, 108Mhz). Cuando se presiona scan, la radio empieza a buscar una
+// estacion, bajando hacia la frecuencia mas baja de la banda (88Mhz); se frena cuando encuentra una
+// estacion o cuando llega la banda mas baja, y si se vuelve a apretar scan, continua la busqueda en
+// forma descendente. Modele la radio como un proceso FSP.
+
+RADIO = (reset -> Mz108 | on -> Mz108),
+
+Mz108 = (off -> RADIO | scan -> Mz88),
+
+Mz88 = (off -> RADIO | scan -> Mz108).
+
