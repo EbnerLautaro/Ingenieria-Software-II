@@ -1,0 +1,21 @@
+LINE(N=3) = LINE[0],
+LINE[i:0..N] =
+    ( when (i < N) put -> LINE[i+1]
+    | when (i > 0) get -> LINE[i-1]
+    ).
+
+ROBOT = (get -> process -> finish -> (export -> ROBOT | discard -> ROBOT)).
+
+MACHINE = (process -> finish -> MACHINE).
+
+||MACHINE_PROCESS = (ROBOT || MACHINE).
+
+||PRODUCTION_LINE = (line[1..3]:LINE || {press,drill}:MACHINE_PROCESS)/{
+    line.start/line[1].put,
+    line.finish/line[3].get,
+    press.export/line[2].put,
+    drill.export/line[3].put,
+    press.start/{line[1].get, press.get},
+    drill.start/{line[2].get, drill.get}
+}.
+

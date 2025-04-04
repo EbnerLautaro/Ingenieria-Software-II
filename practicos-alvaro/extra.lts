@@ -1,0 +1,27 @@
+// - 3 cintas transportadoras
+// - 2 robots
+// - 2 máquinas (prensa, agujereadora)
+// - cada cinta es un buffer de tamaño 3
+// - el 1er robot toma un elemento de la 1ra cinta, lo prensa y luego inserta
+//   el objeto prensado en la 2da cinta si no está llena, de lo contrario lo descarta
+// - el 2do robot toma un elemento de la 2da cinta, lo manda a agujerear y luego a la
+//   3ra cinta
+
+LINE(N=3) = LINE[0],
+LINE[i:0..N] =
+    ( when (i < N) put -> LINE[i+1]
+    | when (i > 0) get -> LINE[i-1]
+    ).
+
+ROBOT = (take -> process -> finish -> (export -> ROBOT | discard -> ROBOT)).
+
+MACHINE = (process -> finish -> MACHINE).
+
+||MACHINE_PROCESS = (ROBOT || MACHINE).
+
+||PROD_LINE = (line[1..3]:LINE || {press,drill}:MACHINE_PROCESS)/{
+    line[1].take/{line[1].get, press.take},
+    line[2].take/{line[2].get, drill.take},
+    line[2].put/{line[2].put, press.export},
+    line[3].put/{line[3].put, drill.export}
+}.

@@ -6,9 +6,18 @@
 // estacion o cuando llega la banda mas baja, y si se vuelve a apretar scan, continua la busqueda en
 // forma descendente. Modele la radio como un proceso FSP.
 
-RADIO = (reset -> Mz108 | on -> Mz108),
-
-Mz108 = (off -> RADIO | scan -> Mz88),
-
-Mz88 = (off -> RADIO | scan -> Mz108).
-
+range BANDAS = 88..108
+RADIO = (
+    on -> RADIO[108] 
+    | reset -> RADIO[108]
+),
+RADIO[i:BANDAS] = (
+    off -> RADIO
+    | scan -> SCAN[i]
+    | reset -> RADIO[108]
+),
+SCAN[i:BANDAS] = (
+    when (i >= 88) found -> RADIO[i] 
+    | when (i > 88) scan -> SCAN[i-1]
+    | when (i == 88) scan -> SCAN[108]
+).

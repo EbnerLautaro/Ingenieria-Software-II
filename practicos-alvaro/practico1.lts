@@ -1,0 +1,73 @@
+// 10
+EAST = (enter -> EAST).
+
+WEST = (depart -> WEST).
+
+DIRECTOR = (open -> close -> DIRECTOR).
+
+CONTROL(N=3) = CONTROL[0][0],
+
+CONTROL[0][0] = (open -> CONTROL[0][1]),
+CONTROL[i:1..N][0] = (depart -> CONTROL[i-1][0]),
+
+CONTROL[i:0..N][1] =
+    ( when (i < N) enter -> CONTROL[i+1][1]
+    | when (i > 0) depart -> CONTROL[i-1][1]
+    | close -> CONTROL[i][0]
+    ).
+
+// 11
+LINE(N = 2) = LINE[0],
+LINE[i:0..N] =
+    ( when (i < N) receive -> LINE[i+1]
+    | when (i > 0) process -> LINE[i-1]
+    ).
+
+ARM = (receive -> take -> ARM).
+
+PRESS = (receive -> press -> PRESS).
+
+||PRODUCTION = (
+    line:LINE
+    || press_arm:ARM
+    || press:PRESS
+    || exit_arm:ARM
+)/{
+    line_arm/{line.process, press_arm.receive},
+    arm_press/{press_arm.take, press.receive},
+    press_exit_arm/{press.press, exit_arm.receive}
+}.
+
+// 12
+LINE(N = 2) = LINE[0][0],
+LINE[a:0..N][b:0..N] =
+    ( when (a < N) receive_a -> LINE[a+1][b]
+    | when (a > 0) process_a -> LINE[a-1][b]
+    | when (b < N) receive_a -> LINE[a][b+1]
+    | when (b > 0) process_a -> LINE[a][b-1]
+    ).
+
+LINE_ARM_A = (receive_a -> take -> LINE_ARM_A).
+
+LINE_ARM_B = (receive_b -> take -> LINE_ARM_B).
+
+PRESS = (receive -> press -> PRESS).
+
+DRILL = (receive -> drill -> DRILL).
+
+PRESS_ARM = (receive_a -> take -> PRESS_ARM).
+
+DRILL_ARM = (receive_b -> take -> DRILL_ARM).
+
+||PRODUCTION_LINE = (
+    line:LINE
+    || laa:LINE_ARM_A
+    || press:PRESS
+    || pa:PRESS_ARM
+    || lab:LINE_ARM_B
+    || drill:DRILL
+    || da:DRILL_ARM
+)/{
+    line_laa/{line.process_a, laa.receive_a},
+    laa_press/{},
+}.

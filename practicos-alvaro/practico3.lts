@@ -1,0 +1,11 @@
+PASSENGER = (enter -> PASSENGER | exit -> PASSENGER).
+
+ELEVATOR(N=10) = ELEVATOR[0],
+ELEVATOR[i:0..N] =
+    ( when (i < N) enter -> ELEVATOR[i+1]
+    | when (i > 0) exit -> ELEVATOR[i-1]
+    ).
+
+||PE = (ELEVATOR || PASSENGER).
+
+||CHECK = (PE || P).

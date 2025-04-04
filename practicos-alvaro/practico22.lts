@@ -1,0 +1,23 @@
+const N = 10
+const M = 8
+const K = 4
+
+READER = (read -> READER).
+
+WRITER =
+    ( read -> WRITER
+    | write -> WRITER
+    ).
+
+RESOURCE = RESOURCE[0][0],
+RESOURCE[0][0] = (aquire_r[1] -> RESOURCE[0][1] | aquire_rw[1] -> RESOURCE[1][1]),
+RESOURCE[1][1] = (release -> RESOURCE[0][0]),
+RESOURCE[0][i:1..K] =
+    ( when (i < K) aquire_r[i+1] -> RESOURCE[0][i+1]
+    | when (i > 0) release[i-1] -> RESOURCE[0][i-1]
+    ).
+
+||RW = (r[1..N]:READER || w[1..M]:WRITER || res:RESOURCE)/{
+    aquire_r[i:1..K][j:1..N]/{r[j].read, res.aquire_r[i]},
+    aquire_rw[i:1..K][j:1..M]/{{w[j].read, w[j].write}, res.aquire_rw[i]}
+}.

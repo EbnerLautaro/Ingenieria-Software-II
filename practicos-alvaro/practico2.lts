@@ -1,0 +1,161 @@
+// 2
+const N = 10
+const M = 8
+const K = 4
+
+READER = (read -> READER).
+
+WRITER =
+    ( read -> WRITER
+    | write -> WRITER
+    ).
+
+RESOURCE = RESOURCE[0][0][0],
+RESOURCE[i:0..K][r:0..N][w:0..M] =
+    ( when (i < K && r < N) aquire_r[i+1] -> RESOURCE[i+1][r+1][w]
+    | when (i < K && w < N) aquire_w[i+1] -> RESOURCE[i+1][r][w+1]
+    | when (i > 0 && r > 0) release_r[i-1] -> RESOURCE[i-1][r-1][w]
+    | when (i > 0 && w > 0) release_w[i-1] -> RESOURCE[i-1][r][w-1]
+    ).
+
+||RW = (
+    r:READER
+    || w:WRITER
+    || res:RESOURCE
+)/{
+    aquire_r[i:1..K]/{r.read, res.aquire_r[i]},
+    aquire_w[i:1..K]/{{w.read, w.write}, res.aquire_w[i]}
+}.
+
+// 2 again
+const N = 10
+const M = 8
+const K = 4
+
+READER = (read -> READER).
+
+WRITER =
+    ( read -> WRITER
+    | write -> WRITER
+    ).
+
+RESOURCE = RESOURCE[0],
+RESOURCE[i:0..K] =
+    ( when (i < K) aquire_r[i+1] -> RESOURCE[i+1]
+    | when (i < K) aquire_rw[i+1] -> RESOURCE[i+1]
+    | when (i > 0) release[i-1] -> RESOURCE[i-1]
+    ).
+
+||RW = (r[1..N]:READER || w[1..M]:WRITER || res:RESOURCE)/{
+    aquire_r[i:1..K][j:1..N]/{r[j].read, res.aquire_r[i]},
+    aquire_rw[i:1..K][j:1..M]/{{w[j].read, w[j].write}, res.aquire_rw[i]}
+}.
+
+// 2 again again
+const N = 10
+const M = 8
+const K = 4
+
+READER = READER[0],
+READER[0] = (acquire -> READER[1]),
+READER[1] = (read -> READER[1] | release -> READER[0]).
+
+WRITER = WRITER[0],
+WRITER[0] = (acquire -> WRITER[1]),
+WRITER[1] = 
+    ( read -> WRITER[1]
+    | write -> WRITER[1]
+    | release -> WRITER[0]
+    ).
+
+RESOURCE = RESOURCE[0],
+RESOURCE[i:0..K] =
+    ( when (i < K) acquire -> RESOURCE[i+1]
+    | when (i > 0) release -> RESOURCE[i-1]
+    ).
+
+||RW = (r[1..N]:READER || w[1..M]:WRITER || res:RESOURCE)/{
+    acquire_r[j:1..N]/{r[j].acquire, res.acquire},
+    acquire_rw[j:1..M]/{w[j].acquire, res.acquire},
+
+    release_r[j:1..N]/{r[j].release, res.release},
+    release_rw[j:1..M]/{w[j].release, res.release}
+}.
+
+// 3
+const TS = 10
+
+CLIENT = (reserve -> CLIENT | cancel -> CLIENT).
+
+EMPLOYEE = (reserve -> EMPLOYEE | decline -> EMPLOYEE).
+
+TICKET = (reserve -> release -> TICKET).
+
+TERMINAL = (query -> (available -> TERMINAL | reserved -> TERMINAL)).
+
+||THEATRE = (
+    cli:CLIENT
+    || emp:EMPLOYEE
+    || tik[1..TS]:TICKET
+    || term:TERMINAL
+)/{
+    reserve[t:1..TS]/{cli.reserve, emp.reserve, term.available, tik[t].reserve},
+    reject[t:1..TS]/{cli.cancel, emp.decline, term.reserved, tik[t].release}
+}.
+
+// 4
+const S = 5
+const M = 2
+
+SAVAGE = (feed -> SAVAGE).
+
+COOK = (refill -> COOK).
+
+STOVE = STOVE[M],
+STOVE[0] = (refill -> STOVE[M]),
+STOVE[i:1..M] = (serve[i] -> STOVE[i-1]).
+
+||DINING_SAVAGES = (
+    savage[1..S]:SAVAGE
+    || cook:COOK
+    || stove:STOVE
+)/{
+    serve[s:1..S][c:1..M]/{savage[s].feed, stove.serve[c]},
+    refill/{cook.refill, stove.refill}
+}.
+
+// 5
+const P = 2
+const C = 5
+const CH = 4
+
+PRODUCER = (produce -> PRODUCER).
+
+CONSUMER = (consume -> CONSUMER).
+
+CHANNEL = CHANNEL[0],
+CHANNEL[i:0..CH] =
+    ( when (i < CH) put[i+1] -> CHANNEL[i+1]
+    | when (i > 0) take[i-1] -> CHANNEL[i-1]
+    ).
+
+||PRODUCER_CONSUMER = (
+    ch:CHANNEL
+    || pro[1..P]:PRODUCER
+    || con[1..C]:CONSUMER
+)/{
+    produce[p:1..P][i:1..CH]/{pro[p].produce, ch.put[i]},
+    consume[c:1..C][i:0..CH-1]/{con[c].consume, ch.take[i]}
+}.
+
+// 6
+SENDER = (send -> receive_ack -> SENDER).
+
+RECIEVER = (recieve -> send_ack -> RECIEVER).
+
+||PAR = (s:SENDER || r:RECIEVER)/{
+    send/{s.send, r.recieve},
+    ack/{s.receive_ack, r.send_ack}
+}.
+
+// 6

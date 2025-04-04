@@ -1,0 +1,30 @@
+// Un museo permite que sus visitantes entren a traves de la entrada este, y que abandonen
+// el museo a traves de la salida oeste. Los arribos y las partidas de personas son controladas por puertas
+// giratorias en la entrada y en la salida. Ademas, el director del museo indica la habilitacion de la
+// entrada y salida de personas en el horario de apertura del museo, y cuando indica el horario de cierre
+// solo se permiten salidas del museo, pero no entradas. La habilitacion e inhabilitacion de las puertas
+// giratorias las realiza un controlador. Modele, utilizando los procesos EAST, WEST, CONTROL y
+// DIRECTOR, el comportamiento del museo
+
+
+
+EAST = (arrive -> EAST).
+WEST = (leave -> WEST).
+
+DIRECTOR = (enable -> DIRECTOR | disable -> DIRECTOR).
+
+CONTROLLER = (enable -> CONTROLLER_OPEN | disable -> CONTROLLER_CLOSE),
+CONTROLLER_OPEN = (
+    disable -> CONTROLLER_CLOSE
+    | arrive -> CONTROLLER_OPEN
+    | leave -> CONTROLLER_OPEN
+),
+CONTROLLER_CLOSE = (
+    leave -> CONTROLLER_CLOSE
+    | enable -> CONTROLLER_OPEN
+).
+
+||MUSEUM = (CONTROLLER || DIRECTOR || WEST || EAST).
+
+
+
