@@ -1,0 +1,24 @@
+// Considere una celula de produccion industrial, en la cual se procesan objetos, realizando
+// un prensado de los mismos. Los objetos que se reciben son de cierto tipo A, y llegan a traves de una
+// cinta transportadora. Al llegar el primer elemento de la cinta a la posicion de extraccion, la cinta se
+// para. Luego, un brazo mecanico levanta el elemento de la cinta y lo lleva a la prensa (la cual debe
+// estar desocupada), para su prensado. Luego del prensado, otro brazo mecanico extrae el elemento de
+// la prensa y lo deposita en la salida de la celula. Modele la celula de produccion como un proceso FSP.
+
+
+// Son 4 procesos: CINTA, PRENSA, BRAZO1, BRAZO2
+
+PRESS = (available -> press -> ready -> PRESS).
+
+ARM = (move -> ARM).
+
+BELT = (to_extraction  -> stop -> ready ->  to_exit -> BELT).
+
+
+||PRODUCTION = (
+    belt: BELT || arm1: ARM || arm2: ARM || press: PRESS
+)/{
+    move_to_press/{arm1.move, belt.stop, press.available},
+    move_to_belt/{arm2.move, belt.ready, press.ready}
+
+}.

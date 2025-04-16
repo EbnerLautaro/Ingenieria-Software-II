@@ -33,7 +33,7 @@ PRESS = (receive -> press -> PRESS).
     || press:PRESS
     || exit_arm:ARM
 )/{
-    line_arm/{line.process, press_arm.receive},
+    line_arm/{line.process, press_arm.receive}, 
     arm_press/{press_arm.take, press.receive},
     press_exit_arm/{press.press, exit_arm.receive}
 }.
