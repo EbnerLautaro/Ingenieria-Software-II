@@ -16,7 +16,7 @@ RESOURCE[i:0..K][r:0..N][w:0..M] =
     | when (i < K && w < N) aquire_w[i+1] -> RESOURCE[i+1][r][w+1]
     | when (i > 0 && r > 0) release_r[i-1] -> RESOURCE[i-1][r-1][w]
     | when (i > 0 && w > 0) release_w[i-1] -> RESOURCE[i-1][r][w-1]
-    ).
+    ).  
 
 ||RW = (
     r:READER

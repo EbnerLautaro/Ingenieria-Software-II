@@ -1,0 +1,44 @@
+// Considere el problema de lectores y escritores que desean acceder a un recurso comun
+// (por ej. una variable) donde los lectores solo pueden leer de ese recurso mientras los escritores pueden
+// leer y escribir. Ademas de las consideraciones usuales del problema de lectores-escritores, por una
+// restriccion de la administracion del recurso, solo se permite que K procesos lo esten accediendo
+// simultaneamente. Suoponga que en el sistema hay N lectores y M escritores (con N y M mayores
+// a K). Modele el problema descripto en FSP, proveyendo ademas de las definiciones de los procesos
+// correspondientes, el diagrama de estructura de su modelo.
+
+
+const N = 2 // lectores
+const M = 2 // escritores
+const K = 1 // maximo de accesos al recurso simultaneamente
+
+
+READER = (r_acquire -> read -> r_release -> READER).
+
+WRITER = (
+    r_acquire -> read -> r_release -> WRITER 
+    | w_acquire -> write -> w_release -> WRITER
+).
+
+RESOURCE = RESOURCE[0][0][0],
+RESOURCE[n:0..N][m:0..1][k:0..K] = (
+    when (k<K && n<N) r_acquire -> RESOURCE[n+1][m][k+1]
+    | when (k<K && m==0) w_acquire -> RESOURCE[n][m+1][k+1]
+    | when (k>0 && n>0) r_release -> RESOURCE[n-1][m][k-1]
+    | when (k>0 && m==1) w_release -> RESOURCE[n][m-1][k-1]
+).
+
+||FILOSOFOS = (
+    r[1..N]:READER || w[1..M]:WRITER || res:RESOURCE
+)/{ // renombramos
+    r_acquire[j:1..N]/{r[j].r_acquire, res.r_acquire},
+    r_release[j:1..N]/{r[j].r_release, res.r_release},
+    w_acquire[j:1..M]/{w[j].w_acquire, res.w_acquire},
+    w_release[j:1..M]/{w[j].w_release, res.w_release}
+}\{ // ocultamos
+    r[1..N].read, 
+    w[1..N].write, 
+    w[1..N].read
+}.
+
+// Porque ocultamos? porque la gracia del problema es lo de los acquire y releases, no leer y escribir
+ 

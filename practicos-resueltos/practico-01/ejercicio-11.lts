@@ -20,5 +20,4 @@ BELT = (to_extraction  -> stop -> ready ->  to_exit -> BELT).
 )/{
     move_to_press/{arm1.move, belt.stop, press.available},
     move_to_belt/{arm2.move, belt.ready, press.ready}
-
 }.
