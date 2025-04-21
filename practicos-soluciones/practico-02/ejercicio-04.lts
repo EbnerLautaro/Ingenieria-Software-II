@@ -1,0 +1,33 @@
+// The Dining Savages: Una tribu de salvajes disfruta de una cena comunitaria. Cada uno
+// se sirve de una gran olla que contiene hasta M porciones de estofado de misionero. Cuando un salvaje
+// quiere comer se sirve una porcion de la olla al menos que esta este vacia en cuyo caso espera hasta
+// que esta se vuelva a llenar. Si la olla se vacia, el cocinero de la tribu la vuelve a llenar con M porciones.
+// Modele los salvajes, el cocinero y la olla.
+
+const M=2
+const N=1
+
+
+SAVAGE = (
+    serve -> eat -> SAVAGE
+).
+
+CHEF = (
+    fill_pot -> CHEF
+).
+
+
+POT = POT[M],
+POT[m:0..M] = (
+    when (m==0) empty -> POT[M]
+    | when (m>0) not_empty -> POT[m-1]
+).
+
+||TRIVE = (
+    pot:(savage[i:0..N]::POT)
+    || chef:CHEF
+    || savage[i:0..N]:SAVAGE
+)/{
+    fill_pot/{chef.fill_pot, pot.savage[i:0..N].empty},
+    serve[i:0..N]/{savage[i].serve, pot.savage[i].not_empty}
+}.
