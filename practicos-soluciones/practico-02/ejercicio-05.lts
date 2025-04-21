@@ -1,0 +1,32 @@
+// Disene y modele en FSP un protocolo de comunicacion que permita a un proceso productor y
+// un proceso consumidor comunicarse a traves de un canal asincronico con un numero maximo
+// de mensajes, de manera que el productor se bloquee cuando el buffer del canal esta lleno.
+
+
+
+const N=3
+
+PRODUCER = (
+    produce -> PRODUCER
+).
+
+CONSUMER = (
+    consume -> CONSUMER
+).
+
+BUFFER = BUFFER[0],
+BUFFER[i:0..N] = (
+    when (i==N) take -> BUFFER [i-1]
+    | when (i<N) put -> BUFFER [i+1]
+    | when (i>0) take -> BUFFER [i-1]
+).
+
+
+||COMUNICATION = (
+    producer:PRODUCER 
+    || consumer:CONSUMER 
+    || buff:BUFFER
+)/{
+    consume/{consumer.consume, buff.take},
+    produce/{producer.produce, buff.put}
+}.
