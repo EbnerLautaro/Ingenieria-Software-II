@@ -1,0 +1,24 @@
+// En la peluqueria de Figaro y don Mateo hay dos peluqueros (Figaro y don Mateo) y N
+// sillas para que los clientes esperen sentados. Si un peluquero no tiene cliente que atender, entonces se
+// echa a dormir una siesta. Cuando un cliente llega a la peluqueria si algun peluquero esta durmiendo,
+// lo despierta y se hace atender. Si ambos peluqueros estan atendiendo entonces espera si hay asientos
+// libres donde sentarse, o se va si todos los asientos estan ocupados. Cabe destacar que en esta peluqueria
+// los pelados tienen prioridad (pero no pueden interrumpir un corte de pelo).
+// Modele el sistema utilizando FSP, proveyendo el diagrama de estructura del modelo. (Sugerencia:
+// Trate a los clientes como jobs, no como procesos independientes).
+
+const C = 2
+
+BARBER = (
+    cut_hair -> BARBER 
+    | sleep -> wake_up -> BARBER
+).
+
+CLIENT = (
+    arrive -> (
+        get_haircut -> CLIENT
+        | wake_up_barber -> get_haircut -> CLIENT
+    )
+).
+
+
