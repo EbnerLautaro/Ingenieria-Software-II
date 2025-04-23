@@ -2,3 +2,4 @@ ltsatool
 practicos-soluciones
 practicos-viejos/practicos-ocultos
 .git
+*.lts
