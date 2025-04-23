@@ -7,18 +7,26 @@
 // Modele el sistema utilizando FSP, proveyendo el diagrama de estructura del modelo. (Sugerencia:
 // Trate a los clientes como jobs, no como procesos independientes).
 
+// capacidad Salon
 const C = 2
+range S = 0..C
 
 BARBER = (
-    cut_hair -> BARBER 
-    | sleep -> wake_up -> BARBER
+    sleep -> wake_up -> cut_hair -> BARBER
 ).
 
-CLIENT = (
-    arrive -> (
-        get_haircut -> CLIENT
-        | wake_up_barber -> get_haircut -> CLIENT
-    )
+LOUNGE = LOUNGE[0][0],
+LOUNGE[normal:S][bold:S] = (
+    // bold arrive and sits
+    when (normal + bold < C) bold -> LOUNGE[normal][bold+1]
+    // normal arrive and sits
+    | when (normal + bold < C) normal -> LOUNGE[normal+1][bold] 
+    // normal arrives
+    | when (normal > 0 && bold == 0)  attend_normal -> LOUNGE[normal-1][bold]
+    | when (normal > 0 && bold == 0)  attend_normal -> LOUNGE[normal-1][bold]
+    // bold gets haircut
+    | when (bold > 0)  wake_up_barber -> attend_bold -> LOUNGE[normal][bold-1]
 ).
 
 
+// Esta mal (falta la compocision)
