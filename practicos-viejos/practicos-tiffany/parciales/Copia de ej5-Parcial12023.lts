@@ -1,0 +1,44 @@
+CINTA(N=5) = COUNT[0],
+COUNT[i:0..N] = ( 
+	when (i<N) put->COUNT[i+1] |
+	when (i>0) get->COUNT[i-1]
+).
+
+ROBOT_S(N=2) = ROBOT[N],
+ROBOT[i:1..2] = (
+	cinta[i].get->hold->ensamble->cinta[i+2].put->ROBOT[i]
+).
+
+ROBOT_E = (
+	hold->ensamble->ROBOT_E
+).
+
+ROBOT_V = (	
+	cinta[3].get -> cinta[4].get -> verify -> (
+		broken -> discard -> ROBOT_V |
+		correct -> cinta[5].put-> ROBOT_V
+	)
+).
+
+ROBOT_P = (
+	cinta[5].get -> pack -> dispatch -> ROBOT_P
+).
+
+||MACHINE = (cinta[i:1..5]:CINTA || base:ROBOT_S(1) || alimentacion:ROBOT_E
+		 ||  pava:ROBOT_S(2) || resistencia:ROBOT_E || ROBOT_V || ROBOT_P)/
+	{cinta[1].put/base.cinta[1].put,
+	cinta[1].get/base.cinta[1].get,
+	cinta[3].put/base.cinta[3].put,
+	cinta[3].get/base.cinta[3].get,
+	base.hold/alimentacion.hold,
+	base.ensamble/alimentacion.ensamble,
+	cinta[2].put/pava.cinta[2].put,
+	cinta[2].get/pava.cinta[2].get,
+	cinta[4].get/pava.cinta[4].get,
+	cinta[4].put/pava.cinta[4].put,
+	pava.hold/resistencia.hold,
+	pava.ensamble/resistencia.ensamble}.
+
+
+progress PAVA = {pava.ensamble}
+progress BASE = {base.ensamble}

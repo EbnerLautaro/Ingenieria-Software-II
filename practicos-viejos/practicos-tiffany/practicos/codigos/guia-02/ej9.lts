@@ -1,0 +1,26 @@
+const N = 10 
+const B = 3
+range C = 0..N // Supongamos que los números de las TC van de 0 a N
+range B = 1..3 // Supongamos que solo hay libros con titulo del 1 al 3
+
+COMPUTER = (
+	buy_book[b:B][n:C]->check_editorial[b]->
+		(aprove_book->check_card[n]->
+			(aprove_card->sell->COMPUTER |
+			reject_card->reject->COMPUTER) |
+		reject_book->reject->COMPUTER)
+).
+
+CARD = (
+	check_card[n:C]->(reject_card->CARD | aprove_card->CARD)
+).
+
+BOOK = (
+	check_editorial[b:B]->(reject_book->BOOK | aprove_book->BOOK)
+).
+
+CLIENT = (buy_book[b:B][n:C]->CLIENT | reject->CLIENT).
+
+||EMPRESA = (CLIENT || COMPUTER || CARD || BOOK)/
+	{buy_book/buy_book.[B].[C]
+	}.

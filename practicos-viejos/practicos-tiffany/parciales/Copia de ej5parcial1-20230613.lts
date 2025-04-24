@@ -1,0 +1,30 @@
+const N = 5
+
+CINTA(N=5) = COUNT[0],
+COUNT[i:0..N] = (
+	when (i<N) put->COUNT[i+1] |
+	when (i>0) get->COUNT[i-1]
+).
+
+MAQUINA(N=1) = COUNT[0],
+COUNT[i:0..N] = (
+	when (i<N) put->COUNT[i+1] |
+	when (i>0) get->COUNT[i-1]
+).
+
+BRAZO1 = (
+	cinta[1].get->prensa.put->prensar->prensa.get->
+		(cinta[2].put->BRAZO1 |
+		prensado.defectuoso->prensado.desechar->BRAZO1)
+).
+
+BRAZO2 = (
+	cinta[2].get->agujereadora.put->agujerear->agujereadora.get->
+		(cinta[3].put->BRAZO2 |
+		agujereado.defectuoso->agujereado.desechar->BRAZO2)
+).
+
+progress PRENSAR = {prensar}
+progress AGUJEREAR = {agujerear} 
+
+||MAQUINARIA = (cinta[i:1..3]:CINTA||agujereadora:MAQUINA||prensa:MAQUINA||BRAZO1||BRAZO2).

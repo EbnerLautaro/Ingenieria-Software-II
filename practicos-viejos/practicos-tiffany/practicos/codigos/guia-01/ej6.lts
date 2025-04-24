@@ -1,0 +1,5 @@
+SENSOR = (level[i:0..9]-> (
+	when (2 <= i && i <= 8) normal->SENSOR |
+	when (i<2) low-> SENSOR |
+	when (i>8) high->SENSOR 
+)).

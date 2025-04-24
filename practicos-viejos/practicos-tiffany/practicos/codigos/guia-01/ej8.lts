@@ -1,0 +1,10 @@
+RADIO = (on -> SINCHRONIZE[108]),
+SINCHRONIZE[freq:88..108] = (
+	when (freq> 88) lockfreq->LOCKED[freq] |
+	when (freq > 88) scan[freq-1]->SINCHRONIZE[freq-1] |
+	when (freq > 88) off->RADIO |
+	when (freq > 88) reset->SINCHRONIZE[108] |
+	when (freq==88) end->ENDING
+),
+LOCKED[freq:89..108] = (scan[freq-1]->SINCHRONIZE[freq-1] | off->RADIO | reset->SINCHRONIZE[108]),
+ENDING = (reset->SINCHRONIZE[108] | off->RADIO).

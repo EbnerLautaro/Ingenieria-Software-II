@@ -1,0 +1,26 @@
+PRENSA_LISTA = (
+  brazo0P -> prensar -> PRENSA_TERMINADA
+  | brazoTP -> prensar -> PRENSA_TERMINADA
+),
+PRENSA_TERMINADA = (
+  brazoP1 -> PRENSA_LISTA
+  | brazoPT -> PRENSA_LISTA
+).
+TALADRO_LISTO = (
+  brazo0T -> taladrar -> TALADRO_TERMINADA
+  | brazoPT -> taladrar -> TALADRO_TERMINADA
+),
+TALADRO_TERMINADA = (
+  brazoT1 -> TALADRO_LISTO
+  | brazoTP -> TALADRO_LISTO
+).
+
+
+CINTA = (
+  llegaA -> prensar -> CINTA
+  | llegaB -> taladrar -> CINTA
+  | llegaC -> prensar -> taladrar -> CINTA
+  | llegaD -> taladrar -> prensar -> CINTA
+).
+
+||S = (PRENSA_LISTA || TALADRO_LISTO || CINTA).

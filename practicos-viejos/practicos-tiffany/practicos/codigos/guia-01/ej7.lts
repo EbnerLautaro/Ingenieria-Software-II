@@ -1,0 +1,7 @@
+MACHINE = MACHINE[0],
+MACHINE[i:0..40] = (
+	when (i<15) give->SUM[i] |
+	when (i>15) giveback[i-15]->drink->MACHINE[0] |
+	when (i==15) drink->MACHINE[0]
+),
+SUM[i:0..20] = ([5]->MACHINE[i+5] | [10]->MACHINE[i+10] | [20]->MACHINE[i+20]).

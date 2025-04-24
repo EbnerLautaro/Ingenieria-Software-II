@@ -1,0 +1,31 @@
+//Tiene muchos errores, hay que corregir
+const N = 10 // sillas
+range S = 0..10
+range T = 0..1
+
+FIGARO = FIGARO[0],
+FIGARO[n:T] = (
+	status[n]->FIGARO[n] |
+	cliente->atender->FIGARO[n+1] |
+	siesta->FIGARO[0]
+)\{status}.
+
+MATEO = MATEO[0],
+MATEO[n:T] = (
+	status[n]->MATEO[n] |
+	cliente->atender->MATEO[n+1] |
+	siesta->MATEO[0]
+)\{status}.
+
+FILA = FILA[0],
+FILA[n:S] = (cliente->m.status[n1:T]->
+				(when (n1>0) f.status[n2:T]->
+					(when (n2==0) f.atender->FILA[n-1] |
+					when (n2>0) esperar->FILA[n+1]) |
+				when (n1==0) m.atender->FILA[n-1]) |
+			when (n<N) cliente->esperar->FILA[n] |
+			when (n==N) irse->FILA[n])\{m.status}.
+
+||PELUQUERIA = (f:FIGARO || m:MATEO || FILA)/
+			{atender/{m, f}.atender, 
+			cliente /{m, f}.cliente}.

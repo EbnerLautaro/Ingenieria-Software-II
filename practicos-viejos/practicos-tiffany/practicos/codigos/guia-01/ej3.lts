@@ -1,0 +1,15 @@
+MEETING = (hello -> converse -> godbye -> STOP).
+
+JOB = (arrive -> work -> leave -> JOB).
+
+GAME = ({one, two} -> WIN | three -> lose -> GAME),
+WIN = (win -> GAME).
+
+MOVIE = (ahead -> (right -> MOVIE | left -> STOP)).
+
+FOURTICK (N=3) = FOURTICK[0],
+FOURTICK[i:0..3] = (when(i<N) tick->FOURTICK[i+1] | when(i>=N) tick->STOP).
+
+DOUBLE = (in[i:1..3] -> out[i] -> DOUBLE).
+
+PERSON = (weekend -> sleep -> {play, shop} -> PERSON | weekend -> sleep -> work -> PERSON).

@@ -1,0 +1,19 @@
+CINTA = ({arriveA, arriveB}->CINTA).
+
+BRAZO1 = (arriveA->pickup->placePrensa->BRAZO1 | arriveB->pickup->placeTaladro->BRAZO1).
+
+PRENSA = PRENSA[0],
+PRENSA[i:0..1] = (
+	when (i==0) placePrensa->prensar->PRENSA[1] |
+	when (i==1) readyPrensa->PRENSA[0]
+).
+
+TALADRO = TALADRO[0],
+TALADRO[i:0..1] = (
+	when (i==0) placeTaladro->taladrar->TALADRO[1] |
+	when (i==1) readyTaladro->TALADRO[0]
+).
+
+BRAZO2 = ({readyPrensa, readyTaladro}->out->BRAZO2).
+
+||PRODUCTION = (CINTA || BRAZO1 || PRENSA || BRAZO2 || TALADRO).

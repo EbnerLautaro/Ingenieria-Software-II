@@ -1,0 +1,23 @@
+const N = 8
+range T = 0..N
+// Cambiando el parametro inicial se puede cambiar de donde comienza el laberinto
+LABERYNTH = LABERYNTH[8],
+LABERYNTH[n:T] = (
+	when (n==8) west[7]->LABERYNTH[7] | 
+	when (n==8) north[5]->LABERYNTH[5] |
+	when (n==7) east[8]->LABERYNTH[8] |
+	when (n==5) north[2]->LABERYNTH[2] |
+	when (n==5) south[8]->LABERYNTH[8] |
+	when (n==2) west[1]->LABERYNTH[1] |
+	when (n==2) south[5]->LABERYNTH[5] |
+	when (n==1) south[4]->LABERYNTH[4] |
+	when (n==1) west[0]->LABERYNTH[0] |
+	when (n==1) east[2]->LABERYNTH[2] |
+	when (n==0) east[1]->LABERYNTH[1] |
+	when (n==0) north.stop->STOP |
+	when (n==4) north[1]->LABERYNTH[1] |
+	when (n==4) west[3]->LABERYNTH[3] |
+	when (n==3) south[6]->LABERYNTH[6] |
+	when (n==3) east[4]->LABERYNTH[4] |
+	when (n==6) north[6]->LABERYNTH[3]
+).

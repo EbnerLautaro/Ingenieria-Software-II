@@ -297,7 +297,7 @@ Thus,
  
 \begin_inset Formula 
 \[
-\forall\sigma:\sigma\in S^{\omega}:\sigma\nvDash P\Longrightarrow(\exists i:0\le i:(\forall\beta:\beta\in S^{\omega}:\sigma_{i}\beta\nvDash P))
+\forall\sigma:\sigma\in S^{\omega}:\sigma\nvDash P\Longrightarrow(\exists i:i\ge0:(\forall\beta:\beta\in S^{\omega}:\sigma_{i}\beta\nvDash P))
 \]
 
 \end_inset

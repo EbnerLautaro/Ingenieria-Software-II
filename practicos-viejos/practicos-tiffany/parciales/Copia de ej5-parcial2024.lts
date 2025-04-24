@@ -1,0 +1,31 @@
+INYECTORA(N=2) = COUNT[N][0],
+COUNT[i:1..N][n:0..1] = (
+	when (n<=0) depositar->COUNT[i][n+1] |
+	when (n>=1) inyectar->cinta[i].put->COUNT[i][n-1]
+).
+
+CINTA(N=5) = COUNT[0],
+COUNT[i:0..N] = (
+	when (i<N) put->COUNT[i+1] | 
+	when (i>0) get->COUNT[i-1]
+).
+
+ROBOT = (depositar->inyectar->ROBOT).
+
+||TAPA = (tapa:ROBOT || tapa:INYECTORA(1) || cinta[1]:CINTA)/
+	{cinta[1].put/tapa.cinta[1].put}.
+||RECIPIENTE = (recipiente:ROBOT || recipiente:INYECTORA(2) || cinta[2]:CINTA)/
+	{cinta[2].put/recipiente.cinta[2].put}.
+
+ROBOT_ARMADOR = (
+	cinta[1].get -> cinta[2].get -> armar -> cinta[3].put -> ROBOT_ARMADOR
+).
+
+ROBOT_EMPAQUETADOR = (
+	cinta[3].get -> empaquetar -> despachar -> ROBOT_EMPAQUETADOR
+).
+
+progress TAPA = {tapa.inyectar}
+progress RECIPIENTE = {recipiente.inyectar}
+
+||MAQUINARIA = (cinta[3]:CINTA || TAPA || RECIPIENTE ||ROBOT_ARMADOR ||ROBOT_EMPAQUETADOR).

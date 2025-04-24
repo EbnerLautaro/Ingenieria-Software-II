@@ -1,0 +1,3 @@
+const N = 2
+range T = 0..N
+VARIABLE = (write[a:T]->VARIABLE | read[a:T]->VARIABLE).

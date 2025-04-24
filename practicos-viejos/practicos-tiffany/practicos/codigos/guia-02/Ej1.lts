@@ -1,0 +1,28 @@
+const False = 0 const True = 1
+range Bool = False..True
+const Nread = 2 // Maximum readers const 
+const Nwrite= 2 // Maximum writers
+set Actions = {acquireRead,releaseRead, acquireWrite,releaseWrite}
+
+READER =
+  (acquireRead->examine->releaseRead->READER)
+  +Actions
+  \ {examine}.
+WRITER =
+  (acquireWrite->modify->releaseWrite->WRITER)
+  +Actions
+  \ {modify}.
+
+RW_LOCK = RW[0][False],
+RW[readers:0..Nread][writing:Bool] =(
+	when (!writing)
+		acquireRead ->RW[readers+1][writing] |
+		releaseRead ->RW[readers-1][writing] |
+	when (readers==0 && !writing)
+        acquireWrite->RW[readers][True] |
+		releaseWrite  ->RW[readers][False]
+).
+
+||READERS_WRITERS = (reader[1..Nread]:READER ||
+					writer[1..Nwrite]:WRITER ||
+					{reader[1..Nread], writer[1..Nwrite]}::RW_LOCK).

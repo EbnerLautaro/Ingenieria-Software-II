@@ -1,0 +1,22 @@
+const N = 10 // cantidad maxima pasajeros
+const P = 15 // cantidad de usuarios
+range T = 0..N 
+
+ASCENSOR = ASCENSOR[0],
+ASCENSOR[n:0..P] = (
+	when (n < N) enter->ASCENSOR[n+1] |
+	when (n > 0) exit->ASCENSOR[n-1]
+).
+
+PERSON = (enter->exit->PERSON).
+
+property SAFETY = (enter->ENTER[1]),
+ENTER[i:T] = (
+	when(i<N) enter->ENTER[i+1] |
+	when(i<N) && (i>0) exit->ENTER[i-1]|
+	when(i==N) exit->ENTER[i-1]
+).
+
+||SYSTEM = (p[1..P]:PERSON || {p[1..P]}::ASCENSOR || SAFETY)/
+			{p[1..P].enter/enter,
+			p[1..P].exit/exit}.

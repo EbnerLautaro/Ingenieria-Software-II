@@ -1,0 +1,20 @@
+const False = 0
+const True = 1
+range Bool = False..True
+const N = 3 // seats 
+const M = 2 // terminals
+range S = 1..N
+range T = 1..M
+
+TERMINAL = (seat[i:S].check[b:Bool]->
+	(when (!b) seat[i].acquire_lock->seat[i].book->seat[i].release_lock->TERMINAL 
+ 	| pick_another->TERMINAL)
+).
+
+SEATS = SEAT[False],
+SEAT[b:Bool] = (
+	when (!b) acquire_lock->book->release_lock->SEAT[True] |
+	check[b] -> SEAT[b]
+).
+
+||THEATHER = (terminal[T]:TERMINAL || {terminal[T]}::seat[S]:SEATS).

@@ -365,9 +365,10 @@ bad thing
 \begin_inset Quotes erd
 \end_inset
 
+.
  
 \emph default
-therefore liveness properties cannot proscribe a 'bad thing',
+Therefore liveness properties cannot proscribe a 'bad thing',
  they can only prescribe a 
 \emph on
 

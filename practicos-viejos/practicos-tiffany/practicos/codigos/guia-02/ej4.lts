@@ -1,0 +1,20 @@
+const M = 3 // porciones
+const S = 4
+range N = 0..M
+
+OLLA = OLLA[M],
+OLLA[n:N] = (
+	when (n>0) pedir->servirse->OLLA[n-1] |
+	when (n==0) pedir->llenar_olla->servirse->OLLA[M-1] 
+).
+
+LIDER = (llenar_olla->LIDER).
+
+SALVAJE = (pedir->servirse->SALVAJE).
+
+||DINER = (l:LIDER || s[1..S]:SALVAJE || {s[1..S]}::OLLA)/
+		{s[1..S].pedir/pedir,
+		irse/{s}.irse,
+		llenar_olla/{s[1..S], l}.llenar_olla}.
+
+
