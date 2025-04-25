@@ -1,0 +1,35 @@
+// Un ascensor tiene una capacidad maxima de 10 personas. En el modelo del sistema de
+// control del ascensor, los pasajeros que ingresan al ascensor se señalan con un evento enter y los que
+// salen se señalan con un evento exit. Especifique una propiedad de safety en FSP que cuando sea
+// compuesta con el ascensor verifique que el sistema nunca permita que el ascensor controlado por este
+// exceda los diez ocupantes.
+
+// ELEVATOR(N=1) = ELEVATOR[0],
+// ELEVATOR[i:0..N] = ( 
+//     when (i < N) enter -> ELEVATOR[i+1]
+//     | when (i > 0) exit -> ELEVATOR[i-1]
+// ).
+
+// property MAX_LOAD(N=1) = MAX_LOAD[0],
+// MAX_LOAD[i:0..N] = ( 
+//     when (i < N) enter -> MAX_LOAD[i+1]
+//     | when (i > 0) exit -> MAX_LOAD[i-1]
+// ).
+
+
+BUFFER(N=1) = BUFFER[0],
+BUFFER[i:0..N] = ( 
+    when (i < N) enter -> BUFFER[i+1]
+    | when (i > 0) exit -> BUFFER[i-1]
+).
+
+
+property ||MAX_LOAD(N=1) = (BUFFER(N)).
+
+||CHECK = (
+    MAX_LOAD(4) || BUFFER(5)
+).
+
+
+
+// la implementacion es basicamente un dos buffers, uno de N>10 (ascensor) y uno de N=10 (la propiedad)

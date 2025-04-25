@@ -3,3 +3,5 @@ practicos-soluciones
 practicos-viejos/practicos-ocultos
 .git
 *.lts
+*.als
+*.xopp
