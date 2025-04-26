@@ -128,6 +128,13 @@ Bowen Alpern and Fred B.
  1985.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Safety
 \end_layout
@@ -295,11 +302,50 @@ Thus,
 
  is a safety property if and only if the following holds.
  
+\end_layout
+
+\begin_layout Definition*
+
+\emph on
+Safety
+\emph default
+
 \begin_inset Formula 
 \[
 \forall\sigma:\sigma\in S^{\omega}:\sigma\nvDash P\Longrightarrow(\exists i:i\ge0:(\forall\beta:\beta\in S^{\omega}:\sigma_{i}\beta\nvDash P))
 \]
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition*
+Para demostrar que una propiedad no es de safety tenemos que dar una palabra que pertenece al complemento pero que no tiene prefijo malo.
+\end_layout
+
+\begin_layout Example*
+La palabra 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $a^{\omega}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ para la propiedad 
+\begin_inset Formula $P=(a^{*}b^{\omega})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
 \end_inset
 
 
@@ -427,7 +473,14 @@ Thus,
 \end_inset
 
  is a liveness property if and only if the following holds.
- 
+\end_layout
+
+\begin_layout Definition*
+
+\emph on
+Liveness
+\emph default
+
 \begin_inset Formula 
 \[
 \forall\alpha:\alpha\in\st:(\exists\beta:\beta\in\sw:\alpha\beta\vDash P)
@@ -438,34 +491,40 @@ Thus,
 
 \end_layout
 
-\begin_layout Section*
-Fairness
-\end_layout
-
-\begin_layout Standard
-Informalmente estipula que 
+\begin_layout Definition*
+Para demostrar que una propiedad no es de liveness tenemos que dar un prefijo que no se pueda 
 \begin_inset Quotes eld
 \end_inset
 
-Siempre ocurrirá algo de manera frecuente
+salvar
 \begin_inset Quotes erd
 \end_inset
 
 .
- Ejemplos:
 \end_layout
 
-\begin_layout Itemize
-Siempre que un proceso esté esperando para entrar a una región crítica,
- entonces logrará entrar.
+\begin_layout Example*
+La palabra 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $aba$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+para la propiedad 
+\begin_inset Formula $P=(a^{*}b^{\omega})$
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-Siempre que un proceso solicite periódicamente un recurso finalmente se le será asignado.
-\end_layout
+\begin_layout Standard
 
-\begin_layout Itemize
-Un proceso dado no sufre de inanicion.
 \end_layout
 
 \end_body

@@ -1,0 +1,67 @@
+// Dos vecinos conflictivos tiene separado sus terrenos por un campito con moras. Ellos acordaron que
+// se iban a permitir entrar al campito para recoger moras, pero bajo la condicion de que a lo sumo uno
+// de ellos esta a la vez en el campito. Luego de varias negociaciones llegaron al acuerdo del siguiente
+// protocolo.
+// Cada vez que uno de los vecinos desea entrar al campito, iza su propia bandera. Si este vecino ve
+// que la bandera del otro ya estaba izada, arria la bandera propia e intenta nuevamente. Si, en cambio,
+// la bandera del otro vecino no esta izada, ingresa al campito y recoge las moras que desea. Una vez
+// que haya culminado sale del campito y arria su bandera.
+// Modele este algoritmo para dos vecinos, n1 y n2. Especifique la propiedad de seguridad requerida
+// para el campito y verifique que asegure efectivamente el acceso en exclusion mutua de los vecinos.
+// Especifique las propiedades de progreso requeridas para que ambos vecinos puedan recoger moras
+// provisto que se encuentran bajo una estrategia de scheduling equitativa. ¿Existe alguna circunstancia
+// adversa en la cual los vecinos no puedan progresar? ¿Que ocurrre si alguno de los vecinos es egoista?
+// (En la pagina 158, el libro da una ayuda para modelar las banderas.)
+
+
+
+const True = 1
+const False = 0
+range Bool = False..True
+
+BOOLVAR = VAL[False],
+VAL[v:Bool] = ( 
+    setTrue -> VAL[True]
+    | setFalse -> VAL[False]
+    | [v] -> VAL[v]
+).
+
+
+NEIGHBOR_1 = (
+    flag1.setTrue ->  flag2[i:Bool] -> (
+        when (i == True) flag1.setFalse -> NEIGHBOR_1
+        | when (i == False) enter -> exit -> flag1.setFalse -> NEIGHBOR_1
+    )
+).
+
+NEIGHBOR_2 = (
+    flag2.setTrue ->  flag1[i:Bool] -> (
+        when (i == True) flag2.setFalse -> NEIGHBOR_2
+        | when (i == False) enter -> exit -> flag2.setFalse -> NEIGHBOR_2
+    )
+).
+
+
+||FIELD = (
+    n1:NEIGHBOR_1 || n2:NEIGHBOR_2 || flag1:BOOLVAR || flag2:BOOLVAR
+)/{ 
+    n1.hoist_flag/{n1.flag1.setTrue, flag1.setTrue},
+    n1.lower_flag/{n1.flag1.setFalse, flag1.setFalse},
+    n1.see_neighbors_flag/{n1.flag2.[True], flag2.[True]},
+    n1.does_not_see_neighbors_flag/{n1.flag2.[False], flag2.[False]},
+
+    n2.hoist_flag/{n2.flag2.setTrue, flag2.setTrue},
+    n2.lower_flag/{n2.flag2.setFalse, flag2.setFalse},
+    n2.see_neighbors_flag/{n2.flag1.[True], flag1.[True]},
+    n2.does_not_see_neighbors_flag/{n2.flag1.[False], flag1.[False]}
+}.
+
+property ONCE_AT_A_TIME = (
+    n1.enter ->  n1.exit -> ONCE_AT_A_TIME
+    | n2.enter -> n2.exit -> ONCE_AT_A_TIME
+).
+
+||CHECK = (FIELD || ONCE_AT_A_TIME).
+
+progress NEIGHBOR_1_EATS = {n1.enter}
+progress NEIGHBOR_2_EATS = {n2.enter}
