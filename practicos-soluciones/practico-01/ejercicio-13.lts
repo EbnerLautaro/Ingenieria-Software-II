@@ -1,0 +1,64 @@
+// EJERCICIO ANTERIOR ANTERIOR:
+// Considere una celula de produccion industrial, en la cual se procesan objetos, realizando
+// un prensado de los mismos. Los objetos que se reciben son de cierto tipo A, y llegan a traves de una
+// cinta transportadora. Al llegar el primer elemento de la cinta a la posicion de extraccion, la cinta se
+// para. Luego, un brazo mecanico levanta el elemento de la cinta y lo lleva a la prensa (la cual debe
+// estar desocupada), para su prensado. Luego del prensado, otro brazo mecanico extrae el elemento de
+// la prensa y lo deposita en la salida de la celula. Modele la celula de produccion como un proceso FSP
+
+// ---------------------------------------------------------------------------------------------------------
+
+// EJERCICIO ANTERIOR:
+// Considere la celula de produccion industrial del ejercicio anterior. Modele una variante
+// de la misma como un proceso FSP, en la cual no solo tenemos objetos de tipo A, sino tambien objetos
+// de tipo B, y se cuenta con un taladro (ademas de la prensa). Los objetos de tipo A deben ser prensados,
+// mientras que los objetos de tipo B deben ser taladrados.
+
+// ---------------------------------------------------------------------------------------------------------
+
+// Considere la celula de produccion industrial del ejercicio anterior. Modele una variante
+// de la misma como un proceso FSP, en la cual no solo tenemos objetos de tipo A y objetos de tipo B,
+// sino tambien objetos de tipo C y D. Los objetos de tipo C deben ser prensados y taladrados, en ese
+// orden, mientras que los objetos de tipo D deben ser taladrados y prensados, en ese orden.
+
+ARM = (move -> ARM).
+
+PRESS = (available -> press -> ready -> PRESS).
+
+DRILL = (available -> drill -> ready -> DRILL).
+
+BELT = (
+      objA.arrive -> objA.press -> BELT
+    | objB.arrive -> objB.drill -> BELT
+    | objC.arrive -> objC.press -> objC.partially_ready -> objC.drill -> BELT
+    | objD.arrive -> objD.drill -> objD.partially_ready -> objD.press -> BELT
+).
+
+
+||PRODUCTION_CELL = (
+    BELT
+    || arm_1:ARM  // moves from belt to press or drillw
+    || arm_2:ARM  // moves from press or drill to belt
+    || arm_3:ARM  // moves between press and drill
+    || press:PRESS
+    || drill:DRILL
+)/{
+    // lifecycle of object A
+    objA.from_belt_to_press/{press.available, arm_1.move, objA.press},
+    objA.from_press_to_belt/{arm_2.move, press.ready},
+    // lifecycle of object B
+    objB.from_belt_to_drill/{drill.available, arm_1.move, objB.drill},
+    objB.from_drill_to_belt/{arm_2.move, drill.ready},
+    // lifecycle of object C
+    objC.from_belt_to_press/{press.available, arm_1.move, objC.press},
+    objC.from_press_to_drill/{arm_3.move, press.ready, objC.drill, drill.available},
+    objC.from_drill_to_belt/{arm_2.move, drill.ready, objC.partially_ready},
+    // lifecycle of object D
+    objD.from_belt_to_drill/{drill.available, arm_1.move, objD.drill},
+    objD.from_drill_to_press/{arm_3.move, drill.ready, objD.press, press.available},
+    objD.from_press_to_belt/{arm_2.move, press.ready, objD.partially_ready}
+}.
+
+
+
+

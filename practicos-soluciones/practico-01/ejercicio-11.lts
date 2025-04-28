@@ -6,7 +6,6 @@
 // la prensa y lo deposita en la salida de la celula. Modele la celula de produccion como un proceso FSP.
 
 
-// Son 4 procesos: CINTA, PRENSA, BRAZO1, BRAZO2
 
 PRESS = (available -> press -> ready -> PRESS).
 

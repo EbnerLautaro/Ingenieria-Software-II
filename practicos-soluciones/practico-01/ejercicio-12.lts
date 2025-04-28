@@ -1,0 +1,48 @@
+// EJERCICIO ANTERIOR:
+
+// Considere una celula de produccion industrial, en la cual se procesan objetos, realizando
+// un prensado de los mismos. Los objetos que se reciben son de cierto tipo A, y llegan a traves de una
+// cinta transportadora. Al llegar el primer elemento de la cinta a la posicion de extraccion, la cinta se
+// para. Luego, un brazo mecanico levanta el elemento de la cinta y lo lleva a la prensa (la cual debe
+// estar desocupada), para su prensado. Luego del prensado, otro brazo mecanico extrae el elemento de
+// la prensa y lo deposita en la salida de la celula. Modele la celula de produccion como un proceso FSP
+
+// ---------------------------------------------------------------------------------------------------------
+
+// Considere la celula de produccion industrial del ejercicio anterior. Modele una variante
+// de la misma como un proceso FSP, en la cual no solo tenemos objetos de tipo A, sino tambien objetos
+// de tipo B, y se cuenta con un taladro (ademas de la prensa). Los objetos de tipo A deben ser prensados,
+// mientras que los objetos de tipo B deben ser taladrados.
+
+
+ARM = (move -> ARM).
+
+PRESS = (available -> press -> ready -> PRESS).
+
+DRILL = (available -> drill -> ready -> DRILL).
+
+BELT = (
+    object_A -> process_A -> BELT
+    | object_B -> process_B -> BELT
+).
+
+
+||PRODUCTION_CELL = (
+    BELT
+    || arm_1:ARM
+    || arm_2:ARM
+    || press:PRESS
+    || drill:DRILL
+)/{
+    
+    move_to_press/{arm_1.move, press.available, process_A},
+    move_to_drill/{arm_1.move, drill.available, process_B},
+    move_from_press_to_belt/{arm_2.move, press.ready},
+    move_from_drill_to_belt/{arm_2.move, drill.ready},
+    press/press.press,
+    drill/drill.drill
+    
+}.
+
+
+

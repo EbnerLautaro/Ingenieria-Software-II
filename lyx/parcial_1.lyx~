@@ -523,8 +523,184 @@ para la propiedad
 
 \end_layout
 
+\begin_layout Section*
+Logica Temporal
+\end_layout
+
 \begin_layout Standard
-\begin_inset Newpage newpage
+Los siguientes son algunos de los operadores modales que admite la lógica 
+\series bold
+LTL
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\square\phi$
+\end_inset
+
+:
+ siempre en el futuro sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\diamond\phi$
+\end_inset
+
+:
+ en algun momento en el futuro sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\circ\phi$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+:
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ en el siguiente instante sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi U\psi$
+\end_inset
+
+:
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+ sucede hasta que suceda 
+\begin_inset Formula $\psi$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi WU\psi$
+\end_inset
+
+:
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+ sucede siempre o hasta que suceda 
+\begin_inset Formula $\psi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename src/logica-temporal-semantica.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Fairness
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $\psi$
+\end_inset
+
+ be propositional logic formulae over 
+\begin_inset Formula $AP$
+\end_inset
+
+ (atomic propositions).
+\end_layout
+
+\begin_layout Enumerate
+An 
+\emph on
+unconditional LTL fairness constraint 
+\emph default
+is an LTL formula of the form
+\begin_inset Formula 
+\[
+ufair=\square\lozenge\psi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+strong LTL fairness condition 
+\emph default
+is an LTL formula of the form
+\begin_inset Formula 
+\[
+sfair=\square\lozenge\phi\longrightarrow\square\lozenge\psi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+weak LTL fairness constraint
+\emph default
+ is an LTL formula of the form
+\begin_inset Formula 
+\[
+wfair=\lozenge\square\phi\longrightarrow\square\lozenge\psi
+\]
+
 \end_inset
 
 
