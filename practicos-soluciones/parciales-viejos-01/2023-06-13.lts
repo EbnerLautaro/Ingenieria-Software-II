@@ -1,0 +1,61 @@
+// Considere una parte de una planta de producción que recibe objetos y los debe prensar
+// y agujerear en ese orden, descartando los defectuosos. El sistema consta de tres cintas transportadoras
+// con capacidad para N objetos simulataneamente, dos brazos robots, una prensa y una agujereadora. El
+// primer robot toma los objetos de la primer cinta transportadora, los deposita en la prensa si esta está
+// desocupada, los retira una vez prensado, si son defectuosos los descarta y sino, los coloca en uno de los
+// extremos de la segunda cinta transportadora. Similarmente, el segundo brazo toma los objetos prensados
+// en buenas condiciones del otro extremo de la segunda cinta, lo deposita en la agujereadora si esta está
+// desocupada, lo retira una vez agujereado, y los descarta si son defectuosos y sino, los coloca en la tercera
+// cinta transportadora. Note que se asume que siempre hay alguien introduciendo objetos en la primer
+// cinta transportadora y retirándolos de la tercera.
+
+// Modele el sistema usando FSP. Tenga en cuenta la simetrías que se presenta en algunas componentes.
+// En particular, una cinta transportadora de capacidad N se puede modelar como:
+
+CINTA(N=5) = COUNT[0],
+COUNT[i:0..N] = (
+    when (i<N) put -> COUNT[i+1]
+    | when (i>0) get -> COUNT[i-1]
+).
+
+
+PRESS = (
+    available -> press -> (
+        success -> PRESS
+        | fail -> PRESS
+
+    )
+).
+
+DRILL = (
+    available -> drill -> (
+        success -> DRILL 
+        | fail -> DRILL 
+    )
+).
+
+ARM = (
+    take -> place -> remove -> (
+        defect -> ARM
+        | ok -> ARM
+    )
+).
+
+
+
+||SISTEM = (
+    arm[i:1..2]:ARM
+    || press:PRESS
+    || drill:DRILL
+    || cinta[j:1..3]:CINTA
+)/{
+    move_to_press/{belt[1].get, press.available, arm[1].take},
+    press/{press.press, arm[1].place},
+    discard_press/{press.fail, arm[1].defect},
+    move_to_belt_2/{press.success, arm[1].ok, belt[2].put},
+    move_to_drill/{belt[2].get, drill.available, arm[2].take},
+    drill/{drill.drill, arm[2].place},
+    discard_drill/{drill.fail, arm[2].defect}
+    move_to_belt_3/{drill.success, arm[2].ok, belt[3].put}
+
+}.

@@ -1,0 +1,714 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{amssymb}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\bottommargin 1cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\sw}{S^{\omega}}
+{S^{\omega}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\st}{S^{*}}
+{S^{*}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Bibliografia
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Bowen Alpern and Fred B.
+ Scneider.
+ Defining Liveness.
+ Information Processing Letter,
+ 21:181-185.
+ 1985.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Safety
+\end_layout
+
+\begin_layout Standard
+El statement es:
+ 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+nunca va a pasar nada malo
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (
+\emph on
+some bad thing does not happen during execution
+\emph default
+).
+ Ejemplos:
+\end_layout
+
+\begin_layout Itemize
+No es posible llegar a un estado de deadlock
+\end_layout
+
+\begin_layout Itemize
+Se garantiza exclusión mutua
+\end_layout
+
+\begin_layout Itemize
+El sistema preserva un invariante dado momento
+\end_layout
+
+\begin_layout Standard
+We now formalize 
+\emph on
+safety,
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $S$
+\end_inset
+
+ be the set of program states,
+ 
+\begin_inset Formula $\sw$
+\end_inset
+
+ the set of infinite sequences of program states and 
+\begin_inset Formula $S^{*}$
+\end_inset
+
+ the set of finite sequences of program states.
+\end_layout
+
+\begin_layout Standard
+We call elements of 
+\begin_inset Formula $\sw$
+\end_inset
+
+ executions and elements of 
+\begin_inset Formula $S^{*}$
+\end_inset
+
+ partial executions.
+\end_layout
+
+\begin_layout Standard
+We will write 
+\begin_inset Formula $\sigma\vDash P$
+\end_inset
+
+ when the execution 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is in property 
+\begin_inset Formula $P$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Finally,
+ let 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ denote the partial execution consisting of the first 
+\begin_inset Formula $i$
+\end_inset
+
+ states in 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $P$
+\end_inset
+
+ to be a safety property,
+ if 
+\begin_inset Formula $P$
+\end_inset
+
+ does not hold for an execution,
+ then at some point some 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+bad thing
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ must happen.
+ Such a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+bad thing
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ must be irremediable because a safety property states that the
+\emph on
+ 
+\begin_inset Quotes erd
+\end_inset
+
+bad thing
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+never happens during execution.
+ 
+\end_layout
+
+\begin_layout Standard
+Thus,
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ is a safety property if and only if the following holds.
+ 
+\end_layout
+
+\begin_layout Definition*
+
+\emph on
+Safety
+\emph default
+
+\begin_inset Formula 
+\[
+\forall\sigma:\sigma\in S^{\omega}:\sigma\nvDash P\Longrightarrow(\exists i:i\ge0:(\forall\beta:\beta\in S^{\omega}:\sigma_{i}\beta\nvDash P))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition*
+Para demostrar que una propiedad no es de safety tenemos que dar una palabra que pertenece al complemento pero que no tiene prefijo malo.
+\end_layout
+
+\begin_layout Example*
+La palabra 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $a^{\omega}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ para la propiedad 
+\begin_inset Formula $P=(a^{*}b^{\omega})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Liveness
+\end_layout
+
+\begin_layout Standard
+Informalmente estipula que 
+\emph on
+“siempre es posible que algo bueno ocurra”
+\emph default
+ (
+\emph on
+a good thing happens during execution
+\emph default
+).
+ Ejemplos:
+\end_layout
+
+\begin_layout Itemize
+Un proceso dado termina su ejecución.
+\end_layout
+
+\begin_layout Itemize
+Es posible alcanzar un estado de estabilidad.
+\end_layout
+
+\begin_layout Itemize
+Si se llama al ascensor,
+ este llegará en algún momento.
+\end_layout
+
+\begin_layout Standard
+The thing to observe about a liveness property is that no partial execution is irremediable,
+ since it always remains possible for the required 
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+good thing
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ to occur in the future.
+ 
+\end_layout
+
+\begin_layout Standard
+We take this to be the defining characteristic of liveness since if some partial execution were irremediable,
+ then it would be a 
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+bad thing
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\emph default
+Therefore liveness properties cannot proscribe a 'bad thing',
+ they can only prescribe a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+good thing
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+We now formalize 
+\emph on
+liveness
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A partial execution 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is 
+\emph on
+live
+\emph default
+ for a property 
+\begin_inset Formula $P$
+\end_inset
+
+ if and only if there is a sequence of states 
+\begin_inset Formula $\beta$
+\end_inset
+
+ that 
+\begin_inset Formula $\alpha\beta\vDash P$
+\end_inset
+
+.
+ A liveness property is one for which every partial execution is live.
+ 
+\end_layout
+
+\begin_layout Standard
+Thus,
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ is a liveness property if and only if the following holds.
+\end_layout
+
+\begin_layout Definition*
+
+\emph on
+Liveness
+\emph default
+
+\begin_inset Formula 
+\[
+\forall\alpha:\alpha\in\st:(\exists\beta:\beta\in\sw:\alpha\beta\vDash P)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition*
+Para demostrar que una propiedad no es de liveness tenemos que dar un prefijo que no se pueda 
+\begin_inset Quotes eld
+\end_inset
+
+salvar
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example*
+La palabra 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $aba$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+para la propiedad 
+\begin_inset Formula $P=(a^{*}b^{\omega})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Logica Temporal
+\end_layout
+
+\begin_layout Standard
+Los siguientes son algunos de los operadores modales que admite la lógica 
+\series bold
+LTL
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\square\phi$
+\end_inset
+
+:
+ siempre en el futuro sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\diamond\phi$
+\end_inset
+
+:
+ en algun momento en el futuro sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\circ\phi$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+:
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ en el siguiente instante sucede 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi U\psi$
+\end_inset
+
+:
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+ sucede hasta que suceda 
+\begin_inset Formula $\psi$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi WU\psi$
+\end_inset
+
+:
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+ sucede siempre o hasta que suceda 
+\begin_inset Formula $\psi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename src/logica-temporal-semantica.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Fairness
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $\psi$
+\end_inset
+
+ be propositional logic formulae over 
+\begin_inset Formula $AP$
+\end_inset
+
+ (atomic propositions).
+\end_layout
+
+\begin_layout Enumerate
+An 
+\emph on
+unconditional LTL fairness constraint 
+\emph default
+is an LTL formula of the form
+\begin_inset Formula 
+\[
+ufair=\square\lozenge\psi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+strong LTL fairness condition 
+\emph default
+is an LTL formula of the form
+\begin_inset Formula 
+\[
+sfair=\square\lozenge\phi\longrightarrow\square\lozenge\psi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+weak LTL fairness constraint
+\emph default
+ is an LTL formula of the form
+\begin_inset Formula 
+\[
+wfair=\lozenge\square\phi\longrightarrow\square\lozenge\psi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document
