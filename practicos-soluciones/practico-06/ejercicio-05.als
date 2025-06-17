@@ -110,6 +110,16 @@ pred orden_estricto[r: R] {
 }
 
 assert union_ordenes_estrictos {
-    all disj r, s: R | 
+    all r, s: R | 
         orden_estricto[r] and orden_estricto[s] implies orden_estricto[r+s]
 }
+check union_ordenes_estrictos for exactly 2 R, 4 Object
+
+assert composicion_ordened_esctrictos {
+    all disj r, s: R | 
+        orden_estricto[r] and orden_estricto[s] implies {
+            let t = R | t.rel = (r.rel).(s.rel) and orden_estricto[t]
+        }
+}
+
+check composicion_ordened_esctrictos for exactly 2 R, 4 Object
