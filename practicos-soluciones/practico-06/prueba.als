@@ -1,22 +1,15 @@
-module tour/addressBook1
-	sig Name, Addr {}
-	sig Book {
-	addr: Name -> lone Addr
+sig Disk {
+	gt: Disk
 }
 
 
-pred show (b: Book) {
-	#b.addr > 1
-	#Name.(b.addr) > 1
+fact consistency {
+	all d: Disk | not d in d.gt
+	all d1, d2, d3: Disk |
+		d1 in d2.gt and d2 in d3.gt implies d1 in d3.gt
 }
 
-pred add(b,bp: Book, n: Name, a: Addr) {
-	bp.addr = b.addr + n->a
-}
 
-pred showAdd( b,bp: Book, n: Name, a: Addr) {
-	add [b, bp, n, a]
-	#Name.addr > 1
-}
 
-run showAdd for 3 but 2 Book
+pred show {}
+run show for exactly 3 Disk

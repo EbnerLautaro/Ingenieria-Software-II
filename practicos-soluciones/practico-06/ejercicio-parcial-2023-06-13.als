@@ -20,8 +20,6 @@ fact all_vuelos_asignados {
     all v: VueloID | some a: Aerolinea | v in a.nrovuelos
 }
 
-
-
 // Complete los tres puntitos de la definicion de Aerolinea, modifique la signatura, y/o agregue los hechos (facts) necesarios para asegurar que las condiciones anteriores se satisfagan.
 
 
